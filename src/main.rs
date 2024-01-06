@@ -2,9 +2,11 @@ mod app;
 mod generator;
 mod parser;
 
-use clap::Parser;
 use app::App;
+use clap::Parser;
+use generator::Generator;
 
+/// A simple REST API simulator with mock generator
 #[derive(Parser, Debug)]
 struct Args {
     /// The ip address for listen server
@@ -23,6 +25,8 @@ struct Args {
 fn main() {
     let args = Args::parse();
     let app = App::new(args.addr, args.definitions, args.port);
+    let generator = Generator::new("definitions.json".to_string());
+    generator.gen();
 
     app.listen();
 }

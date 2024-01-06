@@ -8,7 +8,11 @@ pub struct App {
 
 impl App {
     pub fn new(addr: String, definitions: String, port: u16) -> Self {
-        App{addr, definitions, port}
+        App {
+            addr,
+            definitions,
+            port,
+        }
     }
 
     fn addr_str_parser(&self, addr: String) -> Ipv4Addr {
