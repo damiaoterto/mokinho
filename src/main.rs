@@ -1,4 +1,6 @@
 mod app;
+mod generator;
+mod parser;
 
 use clap::Parser;
 use app::App;
