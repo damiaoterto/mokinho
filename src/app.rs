@@ -1,3 +1,5 @@
+use std::net::Ipv4Addr;
+
 pub struct App {
     addr: String,
     definitions: String,
@@ -9,5 +11,14 @@ impl App {
         App{addr, definitions, port}
     }
 
-    pub fn listen(self) {}
+    fn addr_str_parser(&self, addr: String) -> Ipv4Addr {
+        match addr.parse::<Ipv4Addr>() {
+            Ok(addr) => addr,
+            Err(e) => panic!("Invalid address: {}", e),
+        }
+    }
+
+    pub fn listen(&self) {
+        let _ = self.addr_str_parser(self.addr.clone());
+    }
 }
