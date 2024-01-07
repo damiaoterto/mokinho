@@ -2,7 +2,6 @@ mod app;
 mod generator;
 mod parser;
 
-use app::App;
 use clap::Parser;
 use generator::Generator;
 
@@ -24,9 +23,6 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let app = App::new(args.addr, args.definitions, args.port);
-    let generator = Generator::new("definitions.json".to_string());
+    let generator = Generator::new(args.definitions);
     generator.gen();
-
-    app.listen();
 }

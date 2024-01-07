@@ -6,6 +6,7 @@ use std::{
     fs::File,
     io::{self, ErrorKind, Read},
 };
+use regex::Regex;
 
 type Record = HashMap<String, String>;
 
@@ -66,7 +67,13 @@ impl Generator {
 
                     for reg_key in def.data.keys() {
                         if let Some(def_data) = def.data.get(reg_key) {
-                            record.insert(reg_key.to_string(), Parser::parse(def_data.as_str()));
+                            let regex = Regex::new(r#"\$\{([^}]+)\}"#).unwrap();
+
+                            let rep_def_data = regex.replace_all(&def_data, |caps: &regex::Captures| {
+                                Parser::parse(&caps[0].to_string().as_str())
+                            });                     
+
+                            record.insert(reg_key.to_string(), rep_def_data.to_string());
                         }
                     }
 
@@ -77,7 +84,6 @@ impl Generator {
             }
         }
         println!("{:?}", registers);
-
         registers
     }
 }
